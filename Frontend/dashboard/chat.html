@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TwinThink - AI Chat</title>
+
+  <link rel="stylesheet" href="chat.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- BACKGROUND VIDEO -->
+  <video autoplay muted loop class="bg-video">
+    <source src="background_vedio.mp4" type="video/mp4">
+  </video>
+
+  <div class="overlay"></div>
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+
+    <a href="dashboard.html" class="logo">
+      <img src="logo.png" alt="logo">
+      <span>TwinThink / AI Chat</span>
+    </a>
+
+    <div class="status">● RAG Engine Ready</div>
+
+  </header>
+
+  <!-- CHAT WRAPPER -->
+  <div class="chat-wrapper">
+
+    <!-- SIDEBAR (optional mini nav) -->
+    <aside class="chat-sidebar">
+      <a href="dashboard.html">🏠 Dashboard</a>
+      <a href="upload.html">📄 Upload</a>
+      <a class="active" href="chat.html">💬 AI Chat</a>
+    </aside>
+
+    <!-- CHAT MAIN -->
+    <main class="chat-main">
+
+      <!-- CHAT BOX -->
+      <div class="chat-box" id="chatBox">
+
+        <div class="bot-msg">
+          👋 Hi, I am TwinThink AI. Ask me anything from your documents.
+        </div>
+
+      </div>
+
+      <!-- INPUT AREA -->
+      <div class="chat-input">
+
+        <input type="text" id="userInput" placeholder="Ask something..." />
+
+        <button onclick="sendMessage()">Send</button>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <script src="chat.js"></script>
+</body>
+</html>
