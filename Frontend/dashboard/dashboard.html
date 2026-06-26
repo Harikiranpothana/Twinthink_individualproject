@@ -13,12 +13,11 @@
 
 <body>
 
-  <!-- VIDEO BACKGROUND -->
+  <!-- BACKGROUND -->
   <video autoplay muted loop class="bg-video">
     <source src="background_vedio.mp4" type="video/mp4">
   </video>
 
-  <!-- OVERLAY -->
   <div class="overlay"></div>
 
   <!-- SIDEBAR -->
@@ -31,15 +30,10 @@
 
     <nav>
       <a class="active" href="dashboard.html">🏠 Dashboard</a>
-
-      <!-- CONNECTED PAGES -->
       <a href="upload.html">📄 Upload👆</a>
       <a href="chat.html">💬 AI Chat</a>
       <a href="memory.html">🧠 Memory</a>
-
-      
-      
-      <a href="#">⚙ Settings</a>
+      <a href="settings.html">⚙ Settings</a>
     </nav>
 
   </aside>
@@ -47,29 +41,12 @@
   <!-- MAIN -->
   <main class="main">
 
-    <!-- TOP CARDS -->
+    <!-- CARDS -->
     <section class="cards">
-
-      <div class="card">
-        <h3>25</h3>
-        <p>Documents Uploaded</p>
-      </div>
-
-      <div class="card">
-        <h3>100</h3>
-        <p>Questions Asked</p>
-      </div>
-
-      <div class="card">
-        <h3>18</h3>
-        <p>Memories Stored</p>
-      </div>
-
-      <div class="card">
-        <h3>12</h3>
-        <p>Topics Learned</p>
-      </div>
-
+      <div class="card"><h3>25</h3><p>Documents Uploaded</p></div>
+      <div class="card"><h3>100</h3><p>Questions Asked</p></div>
+      <div class="card"><h3>18</h3><p>Memories Stored</p></div>
+      <div class="card"><h3>12</h3><p>Topics Learned</p></div>
     </section>
 
     <!-- MIDDLE -->
@@ -85,16 +62,20 @@
         </ul>
       </div>
 
+      <!-- CHART FIXED CONTAINER -->
       <div class="panel">
         <h3>Analytics</h3>
-        <canvas id="chart"></canvas>
+
+        <div class="chart-container">
+          <canvas id="chart"></canvas>
+        </div>
+
       </div>
 
     </section>
 
     <!-- BOTTOM -->
     <section class="bottom">
-
       <div class="panel">
         <h3>⚠ What You Might Have Forgotten</h3>
         <ul>
@@ -103,7 +84,6 @@
           <li>Previous AI summaries</li>
         </ul>
       </div>
-
     </section>
 
   </main>

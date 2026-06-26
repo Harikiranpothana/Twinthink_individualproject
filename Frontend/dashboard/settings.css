@@ -1,0 +1,150 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  color: white;
+  overflow: hidden;
+}
+
+/* BACKGROUND */
+.bg-video {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -3;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: -2;
+}
+
+/* ================= NAVBAR ================= */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 14px 20px;
+
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(18px);
+
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: white;
+}
+
+.logo img {
+  width: 40px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 18px;
+}
+
+.nav-links a {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  background: rgba(6,182,212,0.15);
+  color: #06B6D4;
+}
+
+.status {
+  color: #22c55e;
+  font-size: 13px;
+}
+
+/* ================= LAYOUT ================= */
+.container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+
+  height: calc(100vh - 60px);
+  gap: 15px;
+  padding: 15px;
+}
+
+/* ================= PANELS ================= */
+.panel {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(18px);
+
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.1);
+
+  padding: 15px;
+}
+
+/* LEFT / RIGHT TEXT */
+.panel h3 {
+  color: #38bdf8;
+  margin-bottom: 10px;
+}
+
+/* CENTER */
+.center {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.setting {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.setting select {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.3);
+  color: white;
+}
+
+/* BUTTON */
+.save-btn {
+  margin-top: 10px;
+  padding: 12px;
+  border: none;
+  background: #06B6D4;
+  color: black;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  background: #22d3ee;
+}
+
+/* INFO BOX */
+.info-box p,
+.status-box p {
+  font-size: 13px;
+  margin: 8px 0;
+  color: #cbd5e1;
+}

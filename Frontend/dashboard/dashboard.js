@@ -1,13 +1,31 @@
+// TwinThink Dashboard Engine (STABLE FINAL VERSION)
+
 document.addEventListener("DOMContentLoaded", function () {
 
-  const ctx = document.getElementById("chart");
+  // ================= LOGIN CHECK =================
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
 
-  if (!ctx) {
-    console.error("❌ Canvas with id 'chart' not found!");
+  if (isLoggedIn !== "true") {
+    window.location.href = "../homepage/login.html";
     return;
   }
 
-  new Chart(ctx, {
+  // ================= CHART INIT =================
+  const canvas = document.getElementById("chart");
+
+  if (!canvas) {
+    console.error("Chart canvas not found");
+    return;
+  }
+
+  const ctx = canvas.getContext("2d");
+
+  // IMPORTANT FIX: destroy if reloaded
+  if (window.dashboardChart) {
+    window.dashboardChart.destroy();
+  }
+
+  window.dashboardChart = new Chart(ctx, {
     type: "line",
     data: {
       labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -16,12 +34,16 @@ document.addEventListener("DOMContentLoaded", function () {
         data: [12, 19, 10, 15, 22, 18, 25],
         borderColor: "#06B6D4",
         backgroundColor: "rgba(6, 182, 212, 0.2)",
+        borderWidth: 2,
+        pointRadius: 4,
         tension: 0.4,
         fill: true
       }]
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
+
       plugins: {
         legend: {
           labels: {
@@ -29,12 +51,15 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         }
       },
+
       scales: {
         x: {
-          ticks: { color: "#ffffff" }
+          ticks: { color: "#ffffff" },
+          grid: { color: "rgba(255,255,255,0.08)" }
         },
         y: {
-          ticks: { color: "#ffffff" }
+          ticks: { color: "#ffffff" },
+          grid: { color: "rgba(255,255,255,0.08)" }
         }
       }
     }
