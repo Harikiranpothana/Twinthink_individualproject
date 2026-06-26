@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TwinThink Dashboard</title>
+
+  <link rel="stylesheet" href="dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+  <!-- VIDEO BACKGROUND -->
+  <video autoplay muted loop class="bg-video">
+    <source src="background_vedio.mp4" type="video/mp4">
+  </video>
+
+  <!-- OVERLAY -->
+  <div class="overlay"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <a href="dashboard.html" class="logo">
+      <img src="logo.png" alt="logo">
+      <span>TwinThink</span>
+    </a>
+
+    <nav>
+      <a class="active" href="dashboard.html">🏠 Dashboard</a>
+
+      <!-- CONNECTED PAGES -->
+      <a href="upload.html">📄 Upload👆</a>
+
+      <a href="#">💬 AI Chat</a>
+      <a href="#">🧠 Memory</a>
+      <a href="#">📊 Analytics</a>
+      <a href="#">⚙ Settings</a>
+    </nav>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- TOP CARDS -->
+    <section class="cards">
+
+      <div class="card">
+        <h3>25</h3>
+        <p>Documents Uploaded</p>
+      </div>
+
+      <div class="card">
+        <h3>100</h3>
+        <p>Questions Asked</p>
+      </div>
+
+      <div class="card">
+        <h3>18</h3>
+        <p>Memories Stored</p>
+      </div>
+
+      <div class="card">
+        <h3>12</h3>
+        <p>Topics Learned</p>
+      </div>
+
+    </section>
+
+    <!-- MIDDLE -->
+    <section class="middle">
+
+      <div class="panel">
+        <h3>Activity Feed</h3>
+        <ul>
+          <li>Uploaded AI_notes.pdf</li>
+          <li>Asked: What is RAG?</li>
+          <li>Generated summary</li>
+          <li>Uploaded DBMS_notes.pdf</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h3>Analytics</h3>
+        <canvas id="chart"></canvas>
+      </div>
+
+    </section>
+
+    <!-- BOTTOM -->
+    <section class="bottom">
+
+      <div class="panel">
+        <h3>⚠ What You Might Have Forgotten</h3>
+        <ul>
+          <li>Transformer architecture basics</li>
+          <li>RAG pipeline explanation</li>
+          <li>Previous AI summaries</li>
+        </ul>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

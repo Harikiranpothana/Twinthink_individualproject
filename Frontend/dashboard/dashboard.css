@@ -1,0 +1,244 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  color: #ffffff;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* =========================
+   VIDEO BACKGROUND
+========================= */
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  z-index: -3;
+}
+
+/* DARK OVERLAY */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0,0,0,0.65);
+  z-index: -2;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+.container {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================
+   SIDEBAR (HOMEPAGE STYLE MATCH)
+========================= */
+.sidebar {
+  width: 240px;
+  height: 100vh;
+
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  padding: 25px;
+
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(15px);
+
+  border-right: 1px solid rgba(255,255,255,0.15);
+}
+
+/* LOGO */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-bottom: 35px;
+}
+
+.logo img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+}
+
+.logo span {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* NAV LINKS */
+.sidebar nav a {
+  display: block;
+
+  text-decoration: none;
+  color: #e5e5e5;
+
+  padding: 12px 14px;
+  margin-bottom: 10px;
+
+  border-radius: 10px;
+
+  transition: all 0.3s ease;
+
+  position: relative;
+}
+
+/* HOVER EFFECT */
+.sidebar nav a:hover {
+  background: rgba(6, 182, 212, 0.15);
+  color: #06B6D4;
+  transform: translateX(6px);
+}
+
+/* ACTIVE LINK */
+.sidebar nav a.active {
+  background: rgba(79, 70, 229, 0.25);
+  color: #4F46E5;
+}
+
+/* =========================
+   MAIN AREA
+========================= */
+.main {
+  margin-left: 240px;
+  padding: 25px;
+}
+
+/* =========================
+   STATS CARDS
+========================= */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.card {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(15px);
+
+  padding: 25px;
+  border-radius: 15px;
+
+  border: 1px solid rgba(255,255,255,0.2);
+
+  transition: all 0.3s ease;
+}
+
+/* HOVER LIKE HOMEPAGE CARDS */
+.card:hover {
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+  border-color: rgba(6, 182, 212, 0.4);
+}
+
+/* CARD TEXT */
+.card h3 {
+  font-size: 28px;
+  margin-bottom: 5px;
+}
+
+.card p {
+  color: #e5e5e5;
+  font-size: 14px;
+}
+
+/* =========================
+   MIDDLE SECTION
+========================= */
+.middle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+/* PANELS */
+.panel {
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(15px);
+
+  padding: 25px;
+  border-radius: 15px;
+
+  border: 1px solid rgba(255,255,255,0.2);
+
+  transition: all 0.3s ease;
+}
+
+/* PANEL HOVER */
+.panel:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+  border-color: rgba(6, 182, 212, 0.3);
+}
+
+/* PANEL TITLE */
+.panel h3 {
+  margin-bottom: 15px;
+  color: #06B6D4;
+  font-size: 20px;
+}
+
+/* LIST ITEMS */
+ul {
+  list-style: none;
+}
+
+ul li {
+  padding: 10px 0;
+  color: #e5e5e5;
+  transition: all 0.3s ease;
+}
+
+/* LIST HOVER */
+ul li:hover {
+  color: #06B6D4;
+  transform: translateX(6px);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 900px) {
+
+  .sidebar {
+    display: none;
+  }
+
+  .main {
+    margin-left: 0;
+  }
+
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .middle {
+    grid-template-columns: 1fr;
+  }
+}
