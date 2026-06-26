@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | TwinThink</title>
+
+    <link rel="stylesheet" href="contact.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+    <!-- Background Video -->
+    <video autoplay muted loop playsinline class="bg-video">
+        <source src="background_vedio.mp4" type="video/mp4">
+    </video>
+
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+
+            <div class="logo">
+                <img src="logo.png" alt="TwinThink Logo">
+                <span>TwinThink</span>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="homepage.html">Home</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Get In Touch</h1>
+
+        <p>
+            Have questions, suggestions, or feedback? We'd love to hear from you.
+        </p>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-container">
+
+        <!-- Contact Form -->
+        <div class="contact-form">
+
+            <h2>Send a Message</h2>
+
+            <form id="contactForm">
+
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text"
+                           id="name"
+                           placeholder="Your Name"
+                           required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email"
+                           id="email"
+                           placeholder="Email Address"
+                           required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-tag"></i>
+                    <input type="text"
+                           id="subject"
+                           placeholder="Subject"
+                           required>
+                </div>
+
+                <div class="input-group textarea-group">
+                    <textarea id="message"
+                              placeholder="Write your message..."
+                              required></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    Send Message
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- Contact Information -->
+        <div class="contact-info">
+
+            <h2>Contact Information</h2>
+
+            <div class="info-box">
+                <i class="fa-solid fa-envelope"></i>
+                <div>
+                    <h3>Email</h3>
+                    <p>twinthink@gmail.com</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <i class="fa-solid fa-location-dot"></i>
+                <div>
+                    <h3>Location</h3>
+                    <p>India</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <i class="fa-solid fa-phone"></i>
+                <div>
+                    <h3>Phone</h3>
+                    <p>+91 9390236585</p>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 TwinThink | AI-Powered Digital Memory System</p>
+    </footer>
+
+    <script src="contact.js"></script>
+
+</body>
+</html>
