@@ -56,11 +56,22 @@ body{
     z-index:1000;
 }
 
+/* Logo */
+
 .logo{
     font-size:28px;
     font-weight:700;
     color:#ffffff;
+    cursor:pointer;
+    transition:all 0.3s ease;
 }
+
+.logo:hover{
+    color:#06B6D4;
+    transform:scale(1.08);
+}
+
+/* Navigation Links */
 
 .nav-links{
     display:flex;
@@ -72,11 +83,54 @@ body{
     text-decoration:none;
     color:#ffffff;
     font-weight:500;
+    transition:all 0.3s ease;
+    position:relative;
+}
+
+.nav-links a::after{
+    content:'';
+    position:absolute;
+    width:0;
+    height:2px;
+    left:0;
+    bottom:-6px;
+    background:#06B6D4;
     transition:0.3s;
+}
+
+.nav-links a:hover::after{
+    width:100%;
 }
 
 .nav-links a:hover{
     color:#06B6D4;
+}
+
+/* Navbar Buttons */
+
+.nav-buttons{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.btn-login{
+    background:transparent;
+    color:white;
+    border:2px solid rgba(255,255,255,0.5);
+
+    padding:12px 24px;
+    border-radius:8px;
+
+    cursor:pointer;
+    transition:all 0.3s ease;
+}
+
+.btn-login:hover{
+    background:white;
+    color:#111827;
+    transform:translateY(-3px);
+    box-shadow:0 8px 20px rgba(255,255,255,0.3);
 }
 
 /* Buttons */
@@ -88,11 +142,12 @@ body{
     padding:12px 24px;
     border-radius:8px;
     cursor:pointer;
-    transition:0.3s;
+    transition:all 0.3s ease;
 }
 
 .btn-primary:hover{
-    background:#3f38c8;
+    transform:translateY(-3px);
+    box-shadow:0 10px 25px rgba(79,70,229,0.5);
 }
 
 .btn-secondary{
@@ -102,12 +157,14 @@ body{
     padding:12px 24px;
     border-radius:8px;
     cursor:pointer;
-    transition:0.3s;
+    transition:all 0.3s ease;
 }
 
 .btn-secondary:hover{
     background:white;
     color:black;
+    transform:translateY(-3px);
+    box-shadow:0 8px 20px rgba(255,255,255,0.3);
 }
 
 /* Hero Section */
@@ -173,11 +230,12 @@ body{
     border:1px solid rgba(255,255,255,0.2);
 
     flex:1;
-    transition:0.3s;
+    transition:all 0.3s ease;
 }
 
 .card:hover{
-    transform:translateY(-10px);
+    transform:translateY(-12px) scale(1.03);
+    box-shadow:0 20px 40px rgba(0,0,0,0.35);
 }
 
 .card i{
@@ -217,6 +275,13 @@ body{
     border-radius:15px;
 
     border:1px solid rgba(255,255,255,0.2);
+
+    transition:all 0.3s ease;
+}
+
+.step:hover{
+    transform:translateY(-10px);
+    box-shadow:0 20px 40px rgba(0,0,0,0.35);
 }
 
 .step span{
