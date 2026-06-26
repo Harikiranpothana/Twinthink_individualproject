@@ -11,59 +11,53 @@
 
 <body>
 
-  <!-- BACKGROUND VIDEO -->
+  <!-- BACKGROUND -->
   <video autoplay muted loop class="bg-video">
     <source src="background_vedio.mp4" type="video/mp4">
   </video>
 
   <div class="overlay"></div>
 
-  <!-- TOP BAR -->
+  <!-- NAVBAR -->
   <header class="topbar">
 
     <a href="dashboard.html" class="logo">
       <img src="logo.png" alt="logo">
-      <span>TwinThink / AI Chat</span>
+      <span>TwinThink</span>
     </a>
+
+    <nav class="nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="upload.html">Upload</a>
+      <a class="active" href="chat.html">AI Chat</a>
+      <a href="memory.html">Memory</a>
+    </nav>
 
     <div class="status">● RAG Engine Ready</div>
 
   </header>
 
   <!-- CHAT WRAPPER -->
-  <div class="chat-wrapper">
+  <main class="chat-wrapper">
 
-    <!-- SIDEBAR (optional mini nav) -->
-    <aside class="chat-sidebar">
-      <a href="dashboard.html">🏠 Dashboard</a>
-      <a href="upload.html">📄 Upload</a>
-      <a class="active" href="chat.html">💬 AI Chat</a>
-    </aside>
+    <!-- CHAT BOX -->
+    <div class="chat-box" id="chatBox">
 
-    <!-- CHAT MAIN -->
-    <main class="chat-main">
-
-      <!-- CHAT BOX -->
-      <div class="chat-box" id="chatBox">
-
-        <div class="bot-msg">
-          👋 Hi, I am TwinThink AI. Ask me anything from your documents.
-        </div>
-
+      <div class="bot-msg">
+        👋 Hi, I am TwinThink AI. Ask me anything from your documents.
       </div>
 
-      <!-- INPUT AREA -->
-      <div class="chat-input">
+    </div>
 
-        <input type="text" id="userInput" placeholder="Ask something..." />
+    <!-- INPUT -->
+    <div class="chat-input">
 
-        <button onclick="sendMessage()">Send</button>
+      <input type="text" id="userInput" placeholder="Ask something..." />
+      <button onclick="sendMessage()">Send</button>
 
-      </div>
+    </div>
 
-    </main>
-
-  </div>
+  </main>
 
   <script src="chat.js"></script>
 </body>

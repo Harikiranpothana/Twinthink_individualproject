@@ -11,14 +11,22 @@ function sendMessage() {
   userDiv.innerText = message;
   chatBox.appendChild(userDiv);
 
-  // BOT RESPONSE (DUMMY FOR NOW)
+  // BOT TYPING EFFECT
   const botDiv = document.createElement("div");
   botDiv.className = "bot-msg";
-  botDiv.innerText = "Thinking... (RAG response will come here later)";
-  
+  botDiv.innerText = "Thinking...";
+
   chatBox.appendChild(botDiv);
+
+  // AUTO SCROLL
+  chatBox.scrollTop = chatBox.scrollHeight;
 
   input.value = "";
 
-  chatBox.scrollTop = chatBox.scrollHeight;
+  // SIMULATED RESPONSE (replace later with Flask + RAG)
+  setTimeout(() => {
+    botDiv.innerText =
+      "This is a placeholder response. Your RAG backend will generate real answers here.";
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }, 800);
 }

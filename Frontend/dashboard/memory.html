@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TwinThink - Memory Engine</title>
+
+  <link rel="stylesheet" href="memory.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- BACKGROUND -->
+  <video autoplay muted loop class="bg-video">
+    <source src="background_vedio.mp4" type="video/mp4">
+  </video>
+
+  <div class="overlay"></div>
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="topbar">
+
+    <!-- LOGO -->
+    <a href="dashboard.html" class="logo">
+      <img src="logo.png" alt="logo">
+      <span>TwinThink</span>
+    </a>
+
+    <!-- NAV -->
+    <nav class="nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="upload.html">Upload</a>
+      <a href="chat.html">AI Chat</a>
+      <a class="active" href="memory.html">Memory</a>
+    </nav>
+
+    <!-- STATUS -->
+    <div class="status">● Memory Engine Active</div>
+
+  </header>
+
+  <!-- MAIN -->
+  <div class="container">
+
+    <!-- LEFT TIMELINE -->
+    <aside class="timeline">
+
+      <h3>Memory Timeline</h3>
+
+      <div class="item">
+        <span>Today</span>
+        <p>Uploaded AI_notes.pdf</p>
+      </div>
+
+      <div class="item">
+        <span>Yesterday</span>
+        <p>Asked: What is RAG?</p>
+      </div>
+
+      <div class="item">
+        <span>2 days ago</span>
+        <p>Generated ML summary</p>
+      </div>
+
+    </aside>
+
+    <!-- CENTER MEMORY -->
+    <main class="memory-view">
+
+      <!-- SEARCH -->
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search memories...">
+      </div>
+
+      <h2>Stored Memories</h2>
+
+      <div class="memory-card">
+        <h3>RAG Explanation</h3>
+        <p>Retrieval Augmented Generation combines search + LLM reasoning.</p>
+      </div>
+
+      <div class="memory-card">
+        <h3>Transformer Basics</h3>
+        <p>Self-attention mechanism helps contextual understanding.</p>
+      </div>
+
+      <div class="memory-card">
+        <h3>AI Notes Summary</h3>
+        <p>Extracted key insights from uploaded documents.</p>
+      </div>
+
+    </main>
+
+    <!-- RIGHT CONTROLS -->
+    <aside class="controls">
+
+      <h3>Memory Control</h3>
+
+      <button onclick="searchMemory()">🔍 Search Memory</button>
+      <button onclick="addMemory()">➕ Add Memory</button>
+      <button onclick="summarizeAll()">🧠 Summarize All</button>
+      <button onclick="whatForgot()">⚠ What You Forgot</button>
+
+      <div class="stats">
+        <p>📦 Total Memories: 18</p>
+        <p>🧠 Indexed: 18/18</p>
+        <p>⚡ Status: Active</p>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <script src="memory.js"></script>
+</body>
+</html>

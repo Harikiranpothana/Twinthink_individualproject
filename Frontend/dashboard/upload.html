@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TwinThink Upload Engine</title>
+  <title>TwinThink - Upload Engine</title>
 
   <link rel="stylesheet" href="upload.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -11,22 +11,27 @@
 
 <body>
 
-  <!-- BACKGROUND VIDEO -->
+  <!-- BACKGROUND -->
   <video autoplay muted loop class="bg-video">
     <source src="background_vedio.mp4" type="video/mp4">
   </video>
 
-  <!-- OVERLAY -->
   <div class="overlay"></div>
 
-  <!-- TOP BAR -->
+  <!-- ================= GLOBAL NAVBAR ================= -->
   <header class="topbar">
 
-    <!-- LOGO (UPDATED) -->
-    <a href="homepage.html" class="logo">
-      <img src="logo.png" alt="TwinThink Logo">
-      <span>TwinThink / Upload Engine</span>
+    <a href="dashboard.html" class="logo">
+      <img src="logo.png" alt="logo">
+      <span>TwinThink</span>
     </a>
+
+    <nav class="nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a class="active" href="upload.html">Upload</a>
+      <a href="chat.html">AI Chat</a>
+      <a href="memory.html">Memory</a>
+    </nav>
 
     <div class="status">● System Online</div>
 
@@ -35,26 +40,28 @@
   <!-- MAIN GRID -->
   <div class="grid">
 
-    <!-- LEFT PANEL -->
-    <div class="panel left">
+    <!-- LEFT: FILE QUEUE -->
+    <div class="panel">
       <h3>File Queue</h3>
       <div id="fileList" class="file-list">No files added</div>
     </div>
 
-    <!-- CENTER PANEL -->
+    <!-- CENTER: UPLOAD AREA -->
     <div class="panel center">
 
-      <h2>Drop Documents</h2>
+      <h2>Upload Documents</h2>
       <p>PDF / DOCX / TXT supported</p>
 
       <div class="dropzone" id="dropArea">
+
         <p>Drag & Drop files here</p>
 
-        <input type="file" id="fileInput" hidden multiple>
+        <input type="file" id="fileInput" multiple hidden>
 
         <button onclick="document.getElementById('fileInput').click()">
           Browse Files
         </button>
+
       </div>
 
       <button class="upload-btn" onclick="uploadFiles()">
@@ -63,8 +70,8 @@
 
     </div>
 
-    <!-- RIGHT PANEL -->
-    <div class="panel right">
+    <!-- RIGHT: SYSTEM INFO -->
+    <div class="panel">
       <h3>System Info</h3>
 
       <div class="info">
@@ -73,6 +80,7 @@
         <p>⚡ Pipeline: Idle</p>
         <p>🔗 Vector DB: FAISS Connected</p>
       </div>
+
     </div>
 
   </div>
