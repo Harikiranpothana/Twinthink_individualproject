@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | TwinThink</title>
+
+    <link rel="stylesheet" href="signup.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+    <!-- Background Video -->
+    <video autoplay muted loop playsinline class="bg-video">
+        <source src="background_vedio.mp4" type="video/mp4">
+    </video>
+
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Signup Container -->
+    <div class="container">
+
+        <div class="form-box">
+
+            <h1>Create Account</h1>
+            <p>Join TwinThink and build your digital twin.</p>
+
+            <form id="signupForm">
+
+                <!-- Full Name -->
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text"
+                           id="fullname"
+                           placeholder="Full Name"
+                           required>
+                </div>
+
+                <!-- Email -->
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email"
+                           id="email"
+                           placeholder="Email Address"
+                           required>
+                </div>
+
+                <!-- Password -->
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password"
+                           id="password"
+                           placeholder="Password"
+                           required>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password"
+                           id="confirmPassword"
+                           placeholder="Confirm Password"
+                           required>
+                </div>
+
+                <!-- Terms -->
+                <div class="options">
+                    <label>
+                        <input type="checkbox" required>
+                        I agree to the Terms & Conditions
+                    </label>
+                </div>
+
+                <!-- Signup Button -->
+                <button type="submit" class="btn">
+                    Sign Up
+                </button>
+
+            </form>
+
+            <div class="switch-form">
+                Already have an account?
+                <a href="login.html">Login</a>
+            </div>
+
+            <a href="index.html" class="back-home">
+                ← Back to Home
+            </a>
+
+        </div>
+
+    </div>
+
+    <script src="signup.js"></script>
+
+</body>
+</html>
