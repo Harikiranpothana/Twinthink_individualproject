@@ -4,6 +4,8 @@ from werkzeug.utils import secure_filename
 
 from services.file_processor import extract_text
 from services.chunk_service import create_chunks
+from services.embedding_service import generate_embeddings
+from services.vector_service import save_to_faiss
 
 upload_bp = Blueprint('upload', __name__)
 
@@ -41,19 +43,20 @@ def upload_file():
 
         file.save(file_path)
 
-        # Extract text
         extracted_text = extract_text(file_path)
 
-        # Create chunks
         chunks = create_chunks(extracted_text)
+
+        embeddings = generate_embeddings(chunks)
+
+        save_to_faiss(chunks, embeddings)
 
         return jsonify({
             "status": "success",
-            "message": "File uploaded and processed successfully",
+            "message": "Document indexed successfully",
             "filename": filename,
-            "text_length": len(extracted_text),
             "total_chunks": len(chunks),
-            "first_chunk_preview": chunks[0][:300]
+            "embedding_dimension": embeddings.shape[1]
         })
 
     return jsonify({
