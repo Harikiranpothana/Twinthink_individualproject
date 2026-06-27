@@ -2,6 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 import os
 
+app.register_blueprint(chat_bp)
 from routes.upload_routes import upload_bp
 
 app = Flask(__name__)
@@ -13,7 +14,7 @@ if not os.path.exists("uploads"):
 
 # Register routes
 app.register_blueprint(upload_bp)
-
+app.register_blueprint(chat_bp)
 # Home Route
 @app.route('/')
 def home():
