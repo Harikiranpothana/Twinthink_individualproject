@@ -3,6 +3,7 @@ import os
 from werkzeug.utils import secure_filename
 
 from services.file_processor import extract_text
+from services.chunk_service import create_chunks
 
 upload_bp = Blueprint('upload', __name__)
 
@@ -40,15 +41,19 @@ def upload_file():
 
         file.save(file_path)
 
-        # Extract text from uploaded document
+        # Extract text
         extracted_text = extract_text(file_path)
+
+        # Create chunks
+        chunks = create_chunks(extracted_text)
 
         return jsonify({
             "status": "success",
             "message": "File uploaded and processed successfully",
             "filename": filename,
             "text_length": len(extracted_text),
-            "preview": extracted_text[:500]
+            "total_chunks": len(chunks),
+            "first_chunk_preview": chunks[0][:300]
         })
 
     return jsonify({
