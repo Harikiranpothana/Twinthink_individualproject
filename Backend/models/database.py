@@ -1,0 +1,68 @@
+import sqlite3
+from datetime import datetime
+
+DB_PATH = "database/metadata.db"
+
+
+# -------------------------
+# Initialize database
+# -------------------------
+def init_db():
+
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS documents (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        filename TEXT,
+        upload_time TEXT,
+        chunk_count INTEGER
+    )
+    """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS queries (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        question TEXT,
+        timestamp TEXT,
+        retrieved_chunks INTEGER
+    )
+    """)
+
+    conn.commit()
+    conn.close()
+
+
+# -------------------------
+# Save uploaded file info
+# -------------------------
+def save_document(filename, chunk_count):
+
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        INSERT INTO documents (filename, upload_time, chunk_count)
+        VALUES (?, ?, ?)
+    """, (filename, datetime.now().isoformat(), chunk_count))
+
+    conn.commit()
+    conn.close()
+
+
+# -------------------------
+# Save query logs
+# -------------------------
+def save_query(question, retrieved_chunks):
+
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        INSERT INTO queries (question, timestamp, retrieved_chunks)
+        VALUES (?, ?, ?)
+    """, (question, datetime.now().isoformat(), len(retrieved_chunks)))
+
+    conn.commit()
+    conn.close()

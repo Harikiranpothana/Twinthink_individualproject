@@ -1,50 +1,26 @@
-import os
-import pickle
-import faiss
-import numpy as np
-
-from services.embedding_service import model
-
-FAISS_FOLDER = "database/faiss_index"
+from services.vector_service import search_similar_chunks
+from services.gemini_service import generate_answer
+from models.database import save_query
 
 
-def retrieve_context(query, top_k=3):
+def get_rag_response(question):
 
-    index_path = os.path.join(
-        FAISS_FOLDER,
-        "index.faiss"
-    )
+    # 1. Retrieve context
+    context_chunks = search_similar_chunks(question)
 
-    chunks_path = os.path.join(
-        FAISS_FOLDER,
-        "chunks.pkl"
-    )
+    if not context_chunks:
+        return {
+            "answer": "I don't know based on provided data.",
+            "context": []
+        }
 
-    # Check whether FAISS files exist
-    if not os.path.exists(index_path):
-        return []
+    # 2. Generate AI answer (Gemini)
+    answer = generate_answer(question, context_chunks)
 
-    # Load FAISS index
-    index = faiss.read_index(index_path)
+    # 3. Save query to database (memory layer)
+    save_query(question, context_chunks)
 
-    # Load stored chunks
-    with open(chunks_path, "rb") as file:
-        chunks = pickle.load(file)
-
-    # Convert question into embedding
-    query_embedding = model.encode([query])
-
-    # Search similar chunks
-    distances, indices = index.search(
-        np.array(query_embedding, dtype=np.float32),
-        top_k
-    )
-
-    # Retrieve chunks
-    retrieved_chunks = []
-
-    for idx in indices[0]:
-        if idx < len(chunks):
-            retrieved_chunks.append(chunks[idx])
-
-    return retrieved_chunks
+    return {
+        "answer": answer,
+        "context": context_chunks
+    }

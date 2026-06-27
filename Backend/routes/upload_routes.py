@@ -13,6 +13,12 @@ UPLOAD_FOLDER = "uploads"
 ALLOWED_EXTENSIONS = {'pdf', 'docx', 'txt'}
 
 
+# -------------------------
+# Ensure upload folder exists
+# -------------------------
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -21,34 +27,67 @@ def allowed_file(filename):
 @upload_bp.route('/upload', methods=['POST'])
 def upload_file():
 
-    if 'file' not in request.files:
-        return jsonify({
-            "status": "error",
-            "message": "No file part in request"
-        }), 400
+    try:
+        # -------------------------
+        # Check file presence
+        # -------------------------
+        if 'file' not in request.files:
+            return jsonify({
+                "status": "error",
+                "message": "No file part in request"
+            }), 400
 
-    file = request.files['file']
+        file = request.files['file']
 
-    if file.filename == '':
-        return jsonify({
-            "status": "error",
-            "message": "No file selected"
-        }), 400
+        if file.filename == '':
+            return jsonify({
+                "status": "error",
+                "message": "No file selected"
+            }), 400
 
-    if file and allowed_file(file.filename):
+        if not allowed_file(file.filename):
+            return jsonify({
+                "status": "error",
+                "message": "Invalid file type"
+            }), 400
 
+        # -------------------------
+        # Save file
+        # -------------------------
         filename = secure_filename(file.filename)
-
         file_path = os.path.join(UPLOAD_FOLDER, filename)
-
         file.save(file_path)
 
+        # -------------------------
+        # Pipeline
+        # -------------------------
         extracted_text = extract_text(file_path)
+
+        if not extracted_text:
+            return jsonify({
+                "status": "error",
+                "message": "Could not extract text from file"
+            }), 500
 
         chunks = create_chunks(extracted_text)
 
+        if not chunks:
+            return jsonify({
+                "status": "error",
+                "message": "No chunks created from document"
+            }), 500
+
         embeddings = generate_embeddings(chunks)
 
+        if embeddings is None:
+            return jsonify({
+                "status": "error",
+                "message": "Embedding generation failed"
+            }), 500
+
+        # -------------------------
+        # Save to FAISS
+        # -------------------------
         save_to_faiss(chunks, embeddings)
 
         return jsonify({
@@ -59,7 +98,8 @@ def upload_file():
             "embedding_dimension": embeddings.shape[1]
         })
 
-    return jsonify({
-        "status": "error",
-        "message": "Invalid file type"
-    }), 400
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "message": str(e)
+        }), 500
