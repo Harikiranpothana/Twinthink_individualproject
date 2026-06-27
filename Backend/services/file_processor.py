@@ -4,9 +4,6 @@ import os
 
 
 def extract_text(file_path):
-    """
-    Extract text from PDF, DOCX, or TXT files.
-    """
 
     extension = os.path.splitext(file_path)[1].lower()
 
@@ -24,6 +21,7 @@ def extract_text(file_path):
 
 
 def extract_pdf(file_path):
+
     text = ""
 
     reader = PdfReader(file_path)
@@ -38,6 +36,7 @@ def extract_pdf(file_path):
 
 
 def extract_docx(file_path):
+
     text = ""
 
     document = Document(file_path)
@@ -49,5 +48,6 @@ def extract_docx(file_path):
 
 
 def extract_txt(file_path):
+
     with open(file_path, "r", encoding="utf-8") as file:
         return file.read()

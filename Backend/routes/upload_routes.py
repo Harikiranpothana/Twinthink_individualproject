@@ -2,10 +2,13 @@ from flask import Blueprint, request, jsonify
 import os
 from werkzeug.utils import secure_filename
 
+from services.file_processor import extract_text
+
 upload_bp = Blueprint('upload', __name__)
 
 UPLOAD_FOLDER = "uploads"
 ALLOWED_EXTENSIONS = {'pdf', 'docx', 'txt'}
+
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -15,11 +18,7 @@ def allowed_file(filename):
 @upload_bp.route('/upload', methods=['POST'])
 def upload_file():
 
-    print("Request Files:", request.files)
-
     if 'file' not in request.files:
-        print("No file key found")
-
         return jsonify({
             "status": "error",
             "message": "No file part in request"
@@ -27,11 +26,7 @@ def upload_file():
 
     file = request.files['file']
 
-    print("Received filename:", file.filename)
-
     if file.filename == '':
-        print("Filename is empty")
-
         return jsonify({
             "status": "error",
             "message": "No file selected"
@@ -43,17 +38,18 @@ def upload_file():
 
         file_path = os.path.join(UPLOAD_FOLDER, filename)
 
-        print("Saving file to:", file_path)
-
         file.save(file_path)
+
+        # Extract text from uploaded document
+        extracted_text = extract_text(file_path)
 
         return jsonify({
             "status": "success",
-            "message": "File uploaded successfully",
-            "filename": filename
-        }), 200
-
-    print("Invalid file type")
+            "message": "File uploaded and processed successfully",
+            "filename": filename,
+            "text_length": len(extracted_text),
+            "preview": extracted_text[:500]
+        })
 
     return jsonify({
         "status": "error",
