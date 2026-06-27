@@ -7,7 +7,6 @@ upload_bp = Blueprint('upload', __name__)
 UPLOAD_FOLDER = "uploads"
 ALLOWED_EXTENSIONS = {'pdf', 'docx', 'txt'}
 
-# Check file extension
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -16,8 +15,11 @@ def allowed_file(filename):
 @upload_bp.route('/upload', methods=['POST'])
 def upload_file():
 
-    # Check if file exists in request
+    print("Request Files:", request.files)
+
     if 'file' not in request.files:
+        print("No file key found")
+
         return jsonify({
             "status": "error",
             "message": "No file part in request"
@@ -25,19 +27,23 @@ def upload_file():
 
     file = request.files['file']
 
-    # Check if user selected file
+    print("Received filename:", file.filename)
+
     if file.filename == '':
+        print("Filename is empty")
+
         return jsonify({
             "status": "error",
             "message": "No file selected"
         }), 400
 
-    # Validate and save file
     if file and allowed_file(file.filename):
 
         filename = secure_filename(file.filename)
 
         file_path = os.path.join(UPLOAD_FOLDER, filename)
+
+        print("Saving file to:", file_path)
 
         file.save(file_path)
 
@@ -46,6 +52,8 @@ def upload_file():
             "message": "File uploaded successfully",
             "filename": filename
         }), 200
+
+    print("Invalid file type")
 
     return jsonify({
         "status": "error",
