@@ -4,77 +4,87 @@
 
 const form = document.querySelector("form");
 
-form.addEventListener("submit", async function (event) {
-    event.preventDefault();
+if (form) {
 
-    const username = document
-        .querySelector('input[type="text"]')
-        .value
-        .trim();
+    form.addEventListener("submit", async function (event) {
 
-    const email = document
-        .querySelector('input[type="email"]')
-        .value
-        .trim();
+        event.preventDefault();
 
-    const password = document
-        .querySelectorAll('input[type="password"]')[0]
-        .value
-        .trim();
+        const username = document
+            .querySelector('input[type="text"]')
+            .value
+            .trim();
 
-    const confirmPassword = document
-        .querySelectorAll('input[type="password"]')[1]
-        .value
-        .trim();
+        const email = document
+            .querySelector('input[type="email"]')
+            .value
+            .trim();
 
-    // Validation
-    if (!username || !email || !password || !confirmPassword) {
-        alert("Please fill in all fields.");
-        return;
-    }
+        const password = document
+            .querySelectorAll('input[type="password"]')[0]
+            .value
+            .trim();
 
-    if (password !== confirmPassword) {
-        alert("Passwords do not match.");
-        return;
-    }
+        const confirmPassword = document
+            .querySelectorAll('input[type="password"]')[1]
+            .value
+            .trim();
 
-    try {
+        // Validation
+        if (!username || !email || !password || !confirmPassword) {
 
-        const response = await fetch(
-            "http://127.0.0.1:5000/signup",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    username: username,
-                    email: email,
-                    password: password
-                })
-            }
-        );
-
-        const data = await response.json();
-
-        if (data.status === "success") {
-
-            alert("Account created successfully!");
-
-            // Redirect to login page
-            window.location.href = "../login/login.html";
-
-        } else {
-
-            alert(data.message);
+            alert("Please fill in all fields.");
+            return;
         }
 
-    } catch (error) {
+        if (password !== confirmPassword) {
 
-        console.error(error);
+            alert("Passwords do not match.");
+            return;
+        }
 
-        alert(
-            "Unable to connect to server. Make sure backend is running."
-        );
-    }
-});
+        try {
+
+            const response = await fetch(
+                "http://127.0.0.1:5000/signup",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        email: email,
+                        password: password
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            if (data.status === "success") {
+
+                alert("Account created successfully!");
+
+                // Redirect to Login Page
+                window.location.href = "login.html";
+
+            } else {
+
+                alert(data.message);
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Unable to connect to server. Make sure backend is running."
+            );
+
+        }
+
+    });
+
+}
