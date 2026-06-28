@@ -2,55 +2,56 @@ import faiss
 import numpy as np
 import os
 import pickle
+from services.embedding_service import model
 
 FAISS_FOLDER = "database/faiss_index"
-
-os.makedirs(FAISS_FOLDER, exist_ok=True)
 
 
 def save_to_faiss(chunks, embeddings):
 
-    try:
+    os.makedirs(FAISS_FOLDER, exist_ok=True)
 
-        if len(chunks) == 0 or len(embeddings) == 0:
-            raise ValueError("Empty chunks or embeddings")
+    dimension = embeddings.shape[1]
 
-        # -------------------------
-        # Ensure correct format
-        # -------------------------
-        embeddings = np.array(embeddings, dtype=np.float32)
+    index = faiss.IndexFlatL2(dimension)
+    index.add(np.array(embeddings))
 
-        # Optional but improves retrieval quality
-        faiss.normalize_L2(embeddings)
+    faiss.write_index(
+        index,
+        os.path.join(FAISS_FOLDER, "index.faiss")
+    )
 
-        dimension = embeddings.shape[1]
+    with open(
+        os.path.join(FAISS_FOLDER, "chunks.pkl"),
+        "wb"
+    ) as f:
+        pickle.dump(chunks, f)
 
-        # -------------------------
-        # Create FAISS index
-        # -------------------------
-        index = faiss.IndexFlatL2(dimension)
 
-        index.add(embeddings)
+# 🔥 THIS IS THE MISSING FUNCTION (FIX)
+def search_similar_chunks(query, top_k=3):
 
-        # -------------------------
-        # Save index
-        # -------------------------
-        faiss.write_index(
-            index,
-            os.path.join(FAISS_FOLDER, "index.faiss")
-        )
+    index_path = os.path.join(FAISS_FOLDER, "index.faiss")
+    chunks_path = os.path.join(FAISS_FOLDER, "chunks.pkl")
 
-        # -------------------------
-        # Save chunks
-        # -------------------------
-        with open(
-            os.path.join(FAISS_FOLDER, "chunks.pkl"),
-            "wb"
-        ) as f:
-            pickle.dump(chunks, f)
+    if not os.path.exists(index_path):
+        return []
 
-        print("FAISS index saved successfully")
+    index = faiss.read_index(index_path)
 
-    except Exception as e:
-        print("Error saving FAISS:", str(e))
-        raise e
+    with open(chunks_path, "rb") as f:
+        chunks = pickle.load(f)
+
+    query_embedding = model.encode([query])
+
+    distances, indices = index.search(
+        np.array(query_embedding, dtype=np.float32),
+        top_k
+    )
+
+    results = []
+    for idx in indices[0]:
+        if idx < len(chunks):
+            results.append(chunks[idx])
+
+    return results

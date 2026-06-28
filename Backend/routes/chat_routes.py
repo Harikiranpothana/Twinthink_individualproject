@@ -16,7 +16,6 @@ def ask_question():
             "message": "Question is required"
         }), 400
 
-    # 🔥 FULL RAG PIPELINE (FAISS + GEMINI + MEMORY)
     result = get_rag_response(question)
 
     return jsonify({

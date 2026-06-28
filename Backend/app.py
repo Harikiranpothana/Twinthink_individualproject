@@ -15,7 +15,7 @@ app = Flask(__name__)
 CORS(app)
 
 # -------------------------
-# Config (optional but clean)
+# Config
 # -------------------------
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -24,12 +24,19 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs("database", exist_ok=True)
 
 # -------------------------
-# Import Blueprints (AFTER app init)
+# Initialize SQLite Database
+# -------------------------
+from models.database import init_db
+init_db()
+
+# -------------------------
+# Import Blueprints
 # -------------------------
 from routes.upload_routes import upload_bp
 from routes.chat_routes import chat_bp
 from routes.insight_routes import insight_bp
 from routes.dashboard_routes import dashboard_bp
+from routes.auth_routes import auth_bp
 
 # -------------------------
 # Register Blueprints
@@ -38,6 +45,7 @@ app.register_blueprint(upload_bp)
 app.register_blueprint(chat_bp)
 app.register_blueprint(insight_bp)
 app.register_blueprint(dashboard_bp)
+app.register_blueprint(auth_bp)
 
 # -------------------------
 # Home Route
