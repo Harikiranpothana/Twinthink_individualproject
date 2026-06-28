@@ -32,15 +32,13 @@ dropArea.addEventListener("dragleave", () => {
 ========================= */
 dropArea.addEventListener("drop", (e) => {
   e.preventDefault();
-
   files = Array.from(e.dataTransfer.files);
   dropArea.style.borderColor = "#334155";
-
   renderFiles();
 });
 
 /* =========================
-   RENDER FILE QUEUE (IMPROVED)
+   RENDER FILE LIST
 ========================= */
 function renderFiles() {
   fileList.innerHTML = "";
@@ -50,15 +48,16 @@ function renderFiles() {
     return;
   }
 
-  files.forEach((file, index) => {
+  files.forEach((file) => {
     const div = document.createElement("div");
-
     div.style.padding = "8px 0";
     div.style.borderBottom = "1px solid rgba(255,255,255,0.05)";
 
     div.innerHTML = `
-      📄 ${file.name} 
-      <span style="color:#64748b;font-size:12px;">(${(file.size/1024).toFixed(1)} KB)</span>
+      📄 ${file.name}
+      <span style="color:#64748b;font-size:12px;">
+        (${(file.size / 1024).toFixed(1)} KB)
+      </span>
     `;
 
     fileList.appendChild(div);
@@ -66,56 +65,58 @@ function renderFiles() {
 }
 
 /* =========================
-   UPLOAD ENGINE (READY FOR FLASK + RAG)
+   UPLOAD ENGINE (FIXED)
 ========================= */
-function uploadFiles() {
+async function uploadFiles() {
+
   if (files.length === 0) {
     alert("No files selected");
     return;
   }
 
   const uploadBtn = document.querySelector(".upload-btn");
-  uploadBtn.innerText = "Processing...";
+
+  uploadBtn.innerText = "Uploading...";
   uploadBtn.disabled = true;
 
-  // SIMULATED PROGRESS (SaaS FEEL)
-  let progress = 0;
+  try {
 
-  const interval = setInterval(() => {
-    progress += 10;
-    uploadBtn.innerText = `Uploading... ${progress}%`;
+    const formData = new FormData();
 
-    if (progress >= 100) {
-      clearInterval(interval);
+    files.forEach(file => {
+      formData.append("files", file);
+    });
 
-      uploadBtn.innerText = "Upload Complete ✔";
-      setTimeout(() => {
-        uploadBtn.innerText = "Execute Upload";
-        uploadBtn.disabled = false;
-      }, 1200);
+    const response = await fetch("http://127.0.0.1:5000/upload", {
+      method: "POST",
+      body: formData
+    });
 
-      console.log("Files ready for backend:");
-      console.log(files);
+    const data = await response.json();
+    console.log("Upload response:", data);
 
-      /* =========================
-         BACKEND READY CODE (FLASK + RAG)
-      ========================= */
-      /*
-      let formData = new FormData();
-      files.forEach(file => {
-        formData.append("files", file);
-      });
-
-      fetch("http://localhost:5000/upload", {
-        method: "POST",
-        body: formData
-      })
-      .then(res => res.json())
-      .then(data => {
-        console.log("Upload success:", data);
-      })
-      .catch(err => console.error(err));
-      */
+    if (!data.success) {
+      throw new Error(data.message || "Upload failed");
     }
-  }, 200);
+
+    uploadBtn.innerText = "Upload Complete ✔";
+
+    setTimeout(() => {
+      uploadBtn.innerText = "Execute Upload";
+      uploadBtn.disabled = false;
+      files = [];
+      renderFiles();
+    }, 1200);
+
+  } catch (err) {
+
+    console.error("Upload error:", err);
+
+    uploadBtn.innerText = "Upload Failed ✖";
+
+    setTimeout(() => {
+      uploadBtn.innerText = "Execute Upload";
+      uploadBtn.disabled = false;
+    }, 1200);
+  }
 }
