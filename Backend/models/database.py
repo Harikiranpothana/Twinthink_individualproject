@@ -4,9 +4,9 @@ from datetime import datetime
 DB_PATH = "database/metadata.db"
 
 
-# -------------------------
-# Initialize database
-# -------------------------
+# =========================
+# INIT DATABASE
+# =========================
 def init_db():
 
     conn = sqlite3.connect(DB_PATH)
@@ -16,68 +16,80 @@ def init_db():
     # Documents Table
     # -------------------------
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS documents (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        filename TEXT,
-        upload_time TEXT,
-        chunk_count INTEGER
-    )
+        CREATE TABLE IF NOT EXISTS documents (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            filename TEXT,
+            upload_time TEXT,
+            chunk_count INTEGER
+        )
     """)
 
     # -------------------------
     # Query Logs Table
     # -------------------------
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS queries (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        question TEXT,
-        timestamp TEXT,
-        retrieved_chunks INTEGER
-    )
+        CREATE TABLE IF NOT EXISTS queries (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            question TEXT,
+            timestamp TEXT,
+            retrieved_chunks INTEGER
+        )
     """)
 
     # -------------------------
     # Users Table
     # -------------------------
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL,
-        email TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL
-    )
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL,
+            email TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL
+        )
     """)
 
     # -------------------------
     # Insights Table
     # -------------------------
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS insights (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        insight TEXT,
-        timestamp TEXT
-    )
+        CREATE TABLE IF NOT EXISTS insights (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            insight TEXT,
+            timestamp TEXT
+        )
     """)
 
     # -------------------------
     # Chat History Table
     # -------------------------
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS chat_history (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_question TEXT,
-        ai_answer TEXT,
-        timestamp TEXT
-    )
+        CREATE TABLE IF NOT EXISTS chat_history (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_question TEXT,
+            ai_answer TEXT,
+            timestamp TEXT
+        )
+    """)
+
+    # -------------------------
+    # MEMORY TIMELINE TABLE (FIXED)
+    # -------------------------
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS memory_timeline (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            event_text TEXT,
+            event_type TEXT,
+            timestamp TEXT
+        )
     """)
 
     conn.commit()
     conn.close()
 
 
-# -------------------------
-# Save uploaded file info
-# -------------------------
+# =========================
+# SAVE DOCUMENT
+# =========================
 def save_document(filename, chunk_count):
 
     conn = sqlite3.connect(DB_PATH)
@@ -96,9 +108,9 @@ def save_document(filename, chunk_count):
     conn.close()
 
 
-# -------------------------
-# Save query logs
-# -------------------------
+# =========================
+# SAVE QUERY
+# =========================
 def save_query(question, retrieved_chunks):
 
     conn = sqlite3.connect(DB_PATH)
@@ -117,9 +129,9 @@ def save_query(question, retrieved_chunks):
     conn.close()
 
 
-# -------------------------
-# Save Chat History
-# -------------------------
+# =========================
+# SAVE CHAT
+# =========================
 def save_chat(user_question, ai_answer):
 
     conn = sqlite3.connect(DB_PATH)
@@ -142,9 +154,9 @@ def save_chat(user_question, ai_answer):
     conn.close()
 
 
-# -------------------------
-# Get Chat History
-# -------------------------
+# =========================
+# GET CHAT HISTORY
+# =========================
 def get_chat_history():
 
     conn = sqlite3.connect(DB_PATH)

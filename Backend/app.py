@@ -12,7 +12,11 @@ load_dotenv()
 # Create Flask App
 # =========================
 app = Flask(__name__)
-CORS(app)
+
+# =========================
+# CORS CONFIG (SAFE FOR FRONTEND)
+# =========================
+CORS(app, origins=["http://127.0.0.1:5500", "http://localhost:5500"])
 
 # =========================
 # Create Required Folders
@@ -24,13 +28,18 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(DATABASE_FOLDER, exist_ok=True)
 
 # =========================
-# Initialize Database
+# INIT DATABASE (IMPORTANT FIX)
 # =========================
-from models.database import init_db
-init_db()
+# ⚠️ CHANGE THIS IF YOUR FILE IS DIFFERENT
+try:
+    from models.database import init_db   # <-- FIXED (most common structure)
+    init_db()
+    print("✅ Database initialized successfully")
+except Exception as e:
+    print("❌ Database init failed:", e)
 
 # =========================
-# Import Blueprints
+# IMPORT BLUEPRINTS
 # =========================
 from routes.upload_routes import upload_bp
 from routes.chat_routes import chat_bp
@@ -39,7 +48,7 @@ from routes.dashboard_routes import dashboard_bp
 from routes.auth_routes import auth_bp
 
 # =========================
-# Register Blueprints
+# REGISTER BLUEPRINTS
 # =========================
 app.register_blueprint(upload_bp)
 app.register_blueprint(chat_bp)
@@ -48,32 +57,28 @@ app.register_blueprint(dashboard_bp)
 app.register_blueprint(auth_bp)
 
 # =========================
-# Home Route
+# HOME ROUTE
 # =========================
 @app.route("/")
 def home():
-
     return {
         "status": "success",
         "message": "TwinThink Backend Running Successfully 🚀"
     }
 
-
 # =========================
-# Health Check Route
+# HEALTH CHECK ROUTE
 # =========================
 @app.route("/health")
 def health():
-
     return {
         "status": "success",
         "server": "running",
         "backend": "TwinThink API Server"
     }
 
-
 # =========================
-# Run Flask Server
+# RUN SERVER
 # =========================
 if __name__ == "__main__":
     app.run(
