@@ -12,6 +12,9 @@ def init_db():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
+    # -------------------------
+    # Documents Table
+    # -------------------------
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS documents (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -21,6 +24,9 @@ def init_db():
     )
     """)
 
+    # -------------------------
+    # Query Logs Table
+    # -------------------------
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS queries (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -29,6 +35,10 @@ def init_db():
         retrieved_chunks INTEGER
     )
     """)
+
+    # -------------------------
+    # Users Table
+    # -------------------------
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -37,6 +47,30 @@ def init_db():
         password TEXT NOT NULL
     )
     """)
+
+    # -------------------------
+    # Insights Table
+    # -------------------------
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS insights (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        insight TEXT,
+        timestamp TEXT
+    )
+    """)
+
+    # -------------------------
+    # Chat History Table
+    # -------------------------
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS chat_history (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_question TEXT,
+        ai_answer TEXT,
+        timestamp TEXT
+    )
+    """)
+
     conn.commit()
     conn.close()
 
@@ -52,7 +86,11 @@ def save_document(filename, chunk_count):
     cursor.execute("""
         INSERT INTO documents (filename, upload_time, chunk_count)
         VALUES (?, ?, ?)
-    """, (filename, datetime.now().isoformat(), chunk_count))
+    """, (
+        filename,
+        datetime.now().isoformat(),
+        chunk_count
+    ))
 
     conn.commit()
     conn.close()
@@ -69,7 +107,57 @@ def save_query(question, retrieved_chunks):
     cursor.execute("""
         INSERT INTO queries (question, timestamp, retrieved_chunks)
         VALUES (?, ?, ?)
-    """, (question, datetime.now().isoformat(), len(retrieved_chunks)))
+    """, (
+        question,
+        datetime.now().isoformat(),
+        len(retrieved_chunks)
+    ))
 
     conn.commit()
     conn.close()
+
+
+# -------------------------
+# Save Chat History
+# -------------------------
+def save_chat(user_question, ai_answer):
+
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        INSERT INTO chat_history (
+            user_question,
+            ai_answer,
+            timestamp
+        )
+        VALUES (?, ?, ?)
+    """, (
+        user_question,
+        ai_answer,
+        datetime.now().isoformat()
+    ))
+
+    conn.commit()
+    conn.close()
+
+
+# -------------------------
+# Get Chat History
+# -------------------------
+def get_chat_history():
+
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT user_question, ai_answer
+        FROM chat_history
+        ORDER BY id ASC
+    """)
+
+    chats = cursor.fetchall()
+
+    conn.close()
+
+    return chats
