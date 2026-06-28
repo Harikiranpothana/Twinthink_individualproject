@@ -1,26 +1,80 @@
-const form = document.getElementById("signupForm");
+// =============================
+// TwinThink Signup System
+// =============================
 
-form.addEventListener("submit", function(event){
+const form = document.querySelector("form");
 
+form.addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    const fullname = document.getElementById("fullname").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
+    const username = document
+        .querySelector('input[type="text"]')
+        .value
+        .trim();
 
-    if(fullname === "" || email === "" || password === "" || confirmPassword === ""){
-        alert("Please fill all fields.");
+    const email = document
+        .querySelector('input[type="email"]')
+        .value
+        .trim();
+
+    const password = document
+        .querySelectorAll('input[type="password"]')[0]
+        .value
+        .trim();
+
+    const confirmPassword = document
+        .querySelectorAll('input[type="password"]')[1]
+        .value
+        .trim();
+
+    // Validation
+    if (!username || !email || !password || !confirmPassword) {
+        alert("Please fill in all fields.");
         return;
     }
 
-    if(password !== confirmPassword){
+    if (password !== confirmPassword) {
         alert("Passwords do not match.");
         return;
     }
 
-    alert("Account created successfully!");
+    try {
 
-    // Future Flask Integration
-    // window.location.href = "dashboard.html";
+        const response = await fetch(
+            "http://127.0.0.1:5000/signup",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: username,
+                    email: email,
+                    password: password
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (data.status === "success") {
+
+            alert("Account created successfully!");
+
+            // Redirect to login page
+            window.location.href = "../login/login.html";
+
+        } else {
+
+            alert(data.message);
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to connect to server. Make sure backend is running."
+        );
+    }
 });

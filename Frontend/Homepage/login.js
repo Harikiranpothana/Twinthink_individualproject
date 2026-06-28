@@ -1,40 +1,82 @@
-// 
-// TwinThink Login System (Fixed)
-// 
+// =============================
+// TwinThink Login System
+// =============================
 
 const form = document.querySelector("form");
 
-form.addEventListener("submit", function (event) {
-  event.preventDefault();
+form.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-  const email = document.querySelector('input[type="email"]').value.trim();
-  const password = document.querySelector('input[type="password"]').value.trim();
+    const email = document
+        .querySelector('input[type="email"]')
+        .value
+        .trim();
 
-  if (!email || !password) {
-    alert("Please fill in all fields.");
-    return;
-  }
+    const password = document
+        .querySelector('input[type="password"]')
+        .value
+        .trim();
 
-  // TEMP AUTH (replace later with backend API)
-  if (email === "email@example.com" && password === "1234") {
-
-    // Save session
-    localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("userEmail", email);
-
-    // UI feedback (NON-blocking)
-    const btn = form.querySelector("button");
-    if (btn) {
-      btn.innerText = "Redirecting...";
-      btn.disabled = true;
+    if (!email || !password) {
+        alert("Please fill in all fields.");
+        return;
     }
 
-    // Smooth redirect
-    setTimeout(() => {
-      window.location.href = "../dashboard/dashboard.html";
-    }, 400);
+    try {
 
-  } else {
-    alert("Invalid credentials");
-  }
+        const response = await fetch(
+            "http://127.0.0.1:5000/login",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (data.status === "success") {
+
+            // Save login session
+            localStorage.setItem(
+                "isLoggedIn",
+                "true"
+            );
+
+            localStorage.setItem(
+                "user",
+                JSON.stringify(data.user)
+            );
+
+            // Button feedback
+            const btn = form.querySelector("button");
+
+            if (btn) {
+                btn.innerText = "Redirecting...";
+                btn.disabled = true;
+            }
+
+            setTimeout(() => {
+                window.location.href =
+                    "../dashboard/dashboard.html";
+            }, 500);
+
+        } else {
+
+            alert(data.message);
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to connect to server. Make sure backend is running."
+        );
+    }
 });
