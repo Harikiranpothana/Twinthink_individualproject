@@ -1,3 +1,8 @@
-Flask
+flask
 flask-cors
+gunicorn
 python-dotenv
+numpy
+pandas
+sentence-transformers
+faiss-cpu

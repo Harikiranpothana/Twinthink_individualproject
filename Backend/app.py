@@ -9,30 +9,40 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # =========================
+# BASE DIRECTORY (IMPORTANT FOR DEPLOYMENT)
+# =========================
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# =========================
 # Create Flask App
 # =========================
 app = Flask(__name__)
 
 # =========================
+# CONFIGURATION
+# =========================
+app.config["UPLOAD_FOLDER"] = os.path.join(BASE_DIR, "uploads")
+app.config["DATABASE_FOLDER"] = os.path.join(BASE_DIR, "database")
+
+# =========================
 # CORS CONFIG (SAFE FOR FRONTEND)
 # =========================
-CORS(app, origins=["http://127.0.0.1:5500", "http://localhost:5500"])
+CORS(app, origins=[
+    "http://127.0.0.1:5500",
+    "http://localhost:5500"
+])
 
 # =========================
-# Create Required Folders
+# CREATE REQUIRED FOLDERS
 # =========================
-UPLOAD_FOLDER = "uploads"
-DATABASE_FOLDER = "database"
-
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-os.makedirs(DATABASE_FOLDER, exist_ok=True)
+os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+os.makedirs(app.config["DATABASE_FOLDER"], exist_ok=True)
 
 # =========================
-# INIT DATABASE (IMPORTANT FIX)
+# INIT DATABASE (SAFE FOR RENDER)
 # =========================
-# ⚠️ CHANGE THIS IF YOUR FILE IS DIFFERENT
 try:
-    from models.database import init_db   # <-- FIXED (most common structure)
+    from models.database import init_db
     init_db()
     print("✅ Database initialized successfully")
 except Exception as e:
@@ -67,7 +77,7 @@ def home():
     }
 
 # =========================
-# HEALTH CHECK ROUTE
+# HEALTH CHECK ROUTE (FOR RENDER)
 # =========================
 @app.route("/health")
 def health():
@@ -78,11 +88,11 @@ def health():
     }
 
 # =========================
-# RUN SERVER
+# RUN SERVER (LOCAL ONLY)
 # =========================
 if __name__ == "__main__":
     app.run(
         debug=True,
         host="0.0.0.0",
-        port=5000
+        port=int(os.environ.get("PORT", 5000))
     )
