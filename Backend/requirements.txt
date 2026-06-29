@@ -1,15 +1,37 @@
+# =====================
+# CORE WEB FRAMEWORK
+# =====================
 flask
 gunicorn
 flask-cors
 python-dotenv
 
+# =====================
+# FILE PROCESSING
+# =====================
 pypdf
 python-docx
 
-numpy
-pandas
+# =====================
+# LANGCHAIN (RAG PIPELINE)
+# =====================
+langchain
+langchain-community
+langchain-text-splitters
 
+# =====================
+# EMBEDDINGS + VECTOR DB
+# =====================
 sentence-transformers
 faiss-cpu
 
+# =====================
+# DATA HANDLING
+# =====================
+numpy
+pandas
+
+# =====================
+# HTTP / API INTEGRATION
+# =====================
 requests
