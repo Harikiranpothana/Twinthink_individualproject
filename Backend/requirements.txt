@@ -6,3 +6,5 @@ numpy
 pandas
 sentence-transformers
 faiss-cpu
+gunicorn
+pypdf
