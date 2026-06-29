@@ -23,18 +23,23 @@ DB_PATH = "database/metadata.db"
 # FILE CHECK
 # =========================
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return (
+        '.' in filename and
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    )
 
 
 # =========================
 # SAVE TIMELINE EVENT
 # =========================
 def add_timeline_event(event_text, event_type="upload"):
+
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
     cursor.execute("""
-        INSERT INTO memory_timeline (event_text, event_type, timestamp)
+        INSERT INTO memory_timeline
+        (event_text, event_type, timestamp)
         VALUES (?, ?, ?)
     """, (
         event_text,
@@ -49,15 +54,41 @@ def add_timeline_event(event_text, event_type="upload"):
 
 
 # =========================
+# SAVE DOCUMENT INFO
+# =========================
+def save_document_info(filename, chunk_count):
+
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        INSERT INTO documents
+        (filename, upload_time, chunk_count)
+        VALUES (?, ?, ?)
+    """, (
+        filename,
+        datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        chunk_count
+    ))
+
+    conn.commit()
+    conn.close()
+
+    print(f"✅ Document saved: {filename}")
+
+
+# =========================
 # UPLOAD ROUTE
 # =========================
 @upload_bp.route('/upload', methods=['POST'])
 def upload_file():
 
     try:
+
         files = request.files.getlist("files")
 
         if not files or files[0].filename == "":
+
             return jsonify({
                 "success": False,
                 "message": "No file uploaded"
@@ -74,43 +105,79 @@ def upload_file():
             # SAVE FILE
             # -------------------------
             filename = secure_filename(file.filename)
-            file_path = os.path.join(UPLOAD_FOLDER, filename)
+
+            file_path = os.path.join(
+                UPLOAD_FOLDER,
+                filename
+            )
+
             file.save(file_path)
 
+            print(f"📄 Processing: {filename}")
+
             # -------------------------
-            # TEXT PROCESSING (RAG PIPELINE)
+            # EXTRACT TEXT
             # -------------------------
             extracted_text = extract_text(file_path)
 
             if not extracted_text:
+
                 return jsonify({
                     "success": False,
-                    "message": f"Text extraction failed for {filename}"
+                    "message":
+                        f"Text extraction failed for {filename}"
                 }), 500
 
+            # -------------------------
+            # CREATE CHUNKS
+            # -------------------------
             chunks = create_chunks(extracted_text)
 
             if not chunks:
+
                 return jsonify({
                     "success": False,
-                    "message": f"No chunks created for {filename}"
+                    "message":
+                        f"No chunks created for {filename}"
                 }), 500
 
+            # -------------------------
+            # GENERATE EMBEDDINGS
+            # -------------------------
             embeddings = generate_embeddings(chunks)
 
             if embeddings is None:
+
                 return jsonify({
                     "success": False,
-                    "message": f"Embedding failed for {filename}"
+                    "message":
+                        f"Embedding failed for {filename}"
                 }), 500
 
+            # -------------------------
+            # SAVE TO FAISS
+            # -------------------------
             save_to_faiss(chunks, embeddings)
 
             # -------------------------
-            # TIMELINE UPDATE
+            # SAVE TO DOCUMENTS TABLE
             # -------------------------
-            add_timeline_event(f"📄 Uploaded document: {filename}")
+            save_document_info(
+                filename,
+                len(chunks)
+            )
 
+            # -------------------------
+            # SAVE TO MEMORY TIMELINE
+            # -------------------------
+            add_timeline_event(
+                f"📄 Uploaded document: {filename}",
+                "upload"
+            )
+
+            # -------------------------
+            # RESPONSE DATA
+            # -------------------------
             processed_files.append({
                 "filename": filename,
                 "chunks": len(chunks)
@@ -118,12 +185,15 @@ def upload_file():
 
         return jsonify({
             "success": True,
-            "message": "Documents processed successfully",
+            "message":
+                "Documents processed successfully",
             "files": processed_files
         })
 
     except Exception as e:
-        print("UPLOAD ERROR:", str(e))
+
+        print("❌ UPLOAD ERROR:", str(e))
+
         return jsonify({
             "success": False,
             "message": str(e)

@@ -1,12 +1,12 @@
 from flask import Blueprint, request, jsonify
 from services.rag_service import get_rag_response
-from models.database import get_chat_history
+from models.database import get_chat_history, save_chat
 
 chat_bp = Blueprint("chat", __name__)
 
 
 # ==========================================
-# Ask Question Route
+# ASK QUESTION ROUTE
 # ==========================================
 @chat_bp.route("/ask", methods=["POST"])
 def ask_question():
@@ -27,32 +27,42 @@ def ask_question():
             "message": "Question is required"
         }), 400
 
-    # Get RAG response
+    # =========================
+    # GET RAG RESPONSE
+    # =========================
     result = get_rag_response(question)
+
+    answer = result.get("answer", "")
+    context = result.get("context", [])
+
+    # =========================
+    # SAVE CHAT (IMPORTANT FOR INSIGHTS)
+    # =========================
+    save_chat(question, answer)
 
     return jsonify({
         "status": "success",
         "question": question,
-        "answer": result["answer"],
-        "retrieved_context": result["context"]
+        "answer": answer,
+        "retrieved_context": context
     })
 
 
 # ==========================================
-# Chat History Route
+# CHAT HISTORY ROUTE
 # ==========================================
 @chat_bp.route("/chat-history", methods=["GET"])
 def chat_history():
 
     chats = get_chat_history()
 
-    history = []
-
-    for question, answer in chats:
-        history.append({
-            "question": question,
-            "answer": answer
-        })
+    history = [
+        {
+            "question": q,
+            "answer": a
+        }
+        for q, a in chats
+    ]
 
     return jsonify({
         "status": "success",

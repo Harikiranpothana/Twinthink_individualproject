@@ -18,16 +18,14 @@
 
   <div class="overlay"></div>
 
-  <!-- ================= NAVBAR ================= -->
+  <!-- NAVBAR -->
   <header class="topbar">
 
-    <!-- LOGO -->
     <a href="dashboard.html" class="logo">
       <img src="logo.png" alt="logo">
       <span>TwinThink</span>
     </a>
 
-    <!-- NAV -->
     <nav class="nav-links">
       <a href="dashboard.html">Dashboard</a>
       <a href="upload.html">Upload</a>
@@ -36,60 +34,30 @@
       <a href="settings.html">Settings</a>
     </nav>
 
-    <!-- STATUS -->
     <div class="status">● Memory Engine Active</div>
 
   </header>
 
-  <!-- MAIN -->
+  <!-- MAIN CONTENT -->
   <div class="container">
 
     <!-- LEFT TIMELINE -->
-    <aside class="timeline">
-
+    <aside class="timeline" id="timeline">
       <h3>Memory Timeline</h3>
-
-      <div class="item">
-        <span>Today</span>
-        <p>Uploaded AI_notes.pdf</p>
-      </div>
-
-      <div class="item">
-        <span>Yesterday</span>
-        <p>Asked: What is RAG?</p>
-      </div>
-
-      <div class="item">
-        <span>2 days ago</span>
-        <p>Generated ML summary</p>
-      </div>
-
     </aside>
 
-    <!-- CENTER MEMORY -->
+    <!-- CENTER MEMORY VIEW -->
     <main class="memory-view">
 
-      <!-- SEARCH -->
       <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Search memories...">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search memories..."
+        >
       </div>
 
       <h2>Stored Memories</h2>
-
-      <div class="memory-card">
-        <h3>RAG Explanation</h3>
-        <p>Retrieval Augmented Generation combines search + LLM reasoning.</p>
-      </div>
-
-      <div class="memory-card">
-        <h3>Transformer Basics</h3>
-        <p>Self-attention mechanism helps contextual understanding.</p>
-      </div>
-
-      <div class="memory-card">
-        <h3>AI Notes Summary</h3>
-        <p>Extracted key insights from uploaded documents.</p>
-      </div>
 
     </main>
 
@@ -104,8 +72,8 @@
       <button onclick="whatForgot()">⚠ What You Forgot</button>
 
       <div class="stats">
-        <p>📦 Total Memories: 18</p>
-        <p>🧠 Indexed: 18/18</p>
+        <p>📦 Dynamic Memory Storage</p>
+        <p>🧠 AI Memory Engine</p>
         <p>⚡ Status: Active</p>
       </div>
 
@@ -113,6 +81,8 @@
 
   </div>
 
+  <!-- LOAD JS AT VERY END -->
   <script src="memory.js"></script>
+
 </body>
 </html>

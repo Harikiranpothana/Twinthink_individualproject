@@ -12,9 +12,9 @@ def init_db():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    # -------------------------
-    # Documents Table
-    # -------------------------
+    # =========================
+    # DOCUMENTS TABLE
+    # =========================
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS documents (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -24,9 +24,9 @@ def init_db():
         )
     """)
 
-    # -------------------------
-    # Query Logs Table
-    # -------------------------
+    # =========================
+    # QUERY LOGS TABLE
+    # =========================
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS queries (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -36,9 +36,9 @@ def init_db():
         )
     """)
 
-    # -------------------------
-    # Users Table
-    # -------------------------
+    # =========================
+    # USERS TABLE
+    # =========================
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -48,9 +48,9 @@ def init_db():
         )
     """)
 
-    # -------------------------
-    # Insights Table
-    # -------------------------
+    # =========================
+    # INSIGHTS TABLE (future AI summaries)
+    # =========================
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS insights (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -59,9 +59,9 @@ def init_db():
         )
     """)
 
-    # -------------------------
-    # Chat History Table
-    # -------------------------
+    # =========================
+    # CHAT HISTORY TABLE
+    # =========================
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS chat_history (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -71,9 +71,9 @@ def init_db():
         )
     """)
 
-    # -------------------------
-    # MEMORY TIMELINE TABLE (FIXED)
-    # -------------------------
+    # =========================
+    # MEMORY TIMELINE TABLE
+    # =========================
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS memory_timeline (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -130,7 +130,7 @@ def save_query(question, retrieved_chunks):
 
 
 # =========================
-# SAVE CHAT
+# SAVE CHAT (IMPORTANT FOR INSIGHTS)
 # =========================
 def save_chat(user_question, ai_answer):
 

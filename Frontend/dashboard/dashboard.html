@@ -6,6 +6,7 @@
   <title>TwinThink Dashboard</title>
 
   <link rel="stylesheet" href="dashboard.css">
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -30,7 +31,7 @@
 
     <nav>
       <a class="active" href="dashboard.html">🏠 Dashboard</a>
-      <a href="upload.html">📄 Upload👆</a>
+      <a href="upload.html">📄 Upload</a>
       <a href="chat.html">💬 AI Chat</a>
       <a href="memory.html">🧠 Memory</a>
       <a href="settings.html">⚙ Settings</a>
@@ -38,56 +39,88 @@
 
   </aside>
 
-  <!-- MAIN -->
+  <!-- MAIN CONTENT -->
   <main class="main">
 
-    <!-- CARDS -->
+    <!-- ================= CARDS ================= -->
     <section class="cards">
-      <div class="card"><h3>25</h3><p>Documents Uploaded</p></div>
-      <div class="card"><h3>100</h3><p>Questions Asked</p></div>
-      <div class="card"><h3>18</h3><p>Memories Stored</p></div>
-      <div class="card"><h3>12</h3><p>Topics Learned</p></div>
-    </section>
 
-    <!-- MIDDLE -->
-    <section class="middle">
-
-      <div class="panel">
-        <h3>Activity Feed</h3>
-        <ul>
-          <li>Uploaded AI_notes.pdf</li>
-          <li>Asked: What is RAG?</li>
-          <li>Generated summary</li>
-          <li>Uploaded DBMS_notes.pdf</li>
-        </ul>
+      <div class="card">
+        <h3 id="totalDocs">0</h3>
+        <p>Documents Uploaded</p>
       </div>
 
-      <!-- CHART FIXED CONTAINER -->
+      <div class="card">
+        <h3 id="totalQueries">0</h3>
+        <p>Questions Asked</p>
+      </div>
+
+      <div class="card">
+        <h3 id="totalChats">0</h3>
+        <p>Chats Stored</p>
+      </div>
+
+      <div class="card">
+        <h3 id="totalUsers">0</h3>
+        <p>Registered Users</p>
+      </div>
+
+    </section>
+
+
+    <!-- ================= MIDDLE SECTION ================= -->
+    <section class="middle">
+
+      <!-- ACTIVITY FEED -->
       <div class="panel">
+
+        <h3>Recent Activity</h3>
+
+        <ul id="activityFeed">
+
+          <li>Loading activities...</li>
+
+        </ul>
+
+      </div>
+
+
+      <!-- ANALYTICS -->
+      <div class="panel">
+
         <h3>Analytics</h3>
 
         <div class="chart-container">
+
           <canvas id="chart"></canvas>
+
         </div>
 
       </div>
 
     </section>
 
-    <!-- BOTTOM -->
+
+    <!-- ================= BOTTOM ================= -->
     <section class="bottom">
+
       <div class="panel">
+
         <h3>⚠ What You Might Have Forgotten</h3>
-        <ul>
-          <li>Transformer architecture basics</li>
-          <li>RAG pipeline explanation</li>
-          <li>Previous AI summaries</li>
+
+        <ul id="forgottenList">
+
+          <li>Loading insights...</li>
+
         </ul>
+
       </div>
+
     </section>
 
   </main>
 
   <script src="dashboard.js"></script>
+
 </body>
 </html>
